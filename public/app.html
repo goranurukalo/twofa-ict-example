@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Twofa example - app</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/almasaeed2010/AdminLTE/e38376ec/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/almasaeed2010/AdminLTE/e38376ec/dist/css/skins/skin-purple.min.css">
+    <link rel="stylesheet" href="./stylesheets/style.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="hold-transition login-page">
+    <div id="alert-messages"></div>
+
+    <div id="page-loader" style="display: none;">
+        <div class="modal fade in" style="display: block;">
+            <div class="modal-dialog loader-parent">
+                <div class="loader-icon"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="login-box" style="width: 640px;">
+        <div class="login-logo">
+            <a href="/">Twofa 
+                <b>ICT</b>
+            </a>
+        </div>
+        
+        <!-- two fa page -->
+        <div class="login-box-body i-hide" id="must_twofa">
+            <p class="login-box-msg">Setup your two factor authentication account</p>
+            <br />
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul>
+                        <li style="margin-bottom: 40px">
+                            <h4>
+                                Step 1 - Set up
+                            </h4>
+                            <div>
+                                <p>
+                                    You will need to enter the following information to Google Authenticator or a compatible app.
+                                </p>
+
+                                <div class="account-info clearfix">
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-xs-8">
+                                            <div class="row">
+                                                <div class="col-xs-3 text-bold">Account:</div>
+                                                <div class="col-xs-9" id="2FA_ACCOUNT">-</div>
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col-xs-3 text-bold">Key:</div>
+                                                <div class="col-xs-9" id="2FA_KEY">-</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div id="2FA_QR_CODE"></div>
+                                        </div>
+
+                                    </div>
+                                    <br>
+                                    <!-- <div class="label" style="color:black">Account</div>
+                                    <div id="2FA_ACCOUNT" class="value"></div>
+                                    <div class="label" style="color:black">Key</div>
+                                    <div id="2FA_KEY" class="value"></div> -->
+                                </div>
+                                <p>
+                                    Alternatively, you can scan the following QR code in Google Authenticator.
+                                </p>
+
+                            </div>
+                        </li>
+
+                        <li>
+                            <h4>
+                                Step 2 - Activate Two Factor Authentication
+                            </h4>
+                            <div>
+                                <p>
+                                    In order to verify that everything is set up properly, please enter the security code displayed in Google Authenticator in
+                                    the field below and select the button. If the code is correct, the Two Factor Authentication
+                                    feature will be enabled.
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <br />
+            <br />
+
+            <form name="membership" id="membership" onsubmit="example.validateForm(event, example.forms.TWOFA); return false;" data-toggle="validator" role="form">
+                <div class="form-group has-feedback">
+                    <input type="text" name="pin" class="form-control" placeholder="Two factor authentication" required>
+                    <span class="glyphicon glyphicon-barcode form-control-feedback"></span>
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 pull-right">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Submit</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+            <br />
+
+        </div>
+
+        <!-- our app page -->
+        <div class="login-box-body i-hide" id="our_app">
+            <a href="javascript:void(0)" onclick="example.logout();">Logout</a>
+            
+            <p class="login-box-msg">User data</p>
+            <br />
+
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    
+                    <div id="userImage"></div>
+                    <br>
+                    <div id="userEmail"></div>
+                    <br>
+                    <div id="userCreatedAt"></div>
+                    <br>
+                    <div id="userRole"></div>
+                    <br>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.login-box -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdn.rawgit.com/1000hz/bootstrap-validator/98654674/dist/validator.min.js"></script>
+    <script src="./javascripts/main.js"></script>
+    <script>
+        example.setupApp();
+    </script>
+</body>
+
+</html>

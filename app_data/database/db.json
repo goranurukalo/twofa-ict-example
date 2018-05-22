@@ -1,0 +1,14 @@
+{
+  "users": [
+    {
+      "_id": 1,
+      "email": "goran@example.com",
+      "password": "Test123!",
+      "createdAt": 1526978348636,
+      "role": "User",
+      "isTwofaSet": true,
+      "avatarUrl": "https://api.adorable.io/avatars/285/goran@example.com",
+      "qrSecret": "W4ILBRCJRXKYLKTF4BPOCQUK2X6SJBTH"
+    }
+  ]
+}
